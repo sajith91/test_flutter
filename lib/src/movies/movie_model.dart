@@ -1,9 +1,16 @@
 class MovieModel {
-  final String urlImage;
-  final String title;
+  String? url;
+  String? name;
 
-  const MovieModel({
-    required this.title,
-    required this.urlImage,
+  MovieModel({
+    this.name,
+    this.url,
   });
+
+  factory MovieModel.fromJson(Map<dynamic, dynamic> json) => MovieModel(
+    name: json["name"],
+    url: json["url"]
+  );
 }
+
+

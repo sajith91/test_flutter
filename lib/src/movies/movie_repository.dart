@@ -14,8 +14,8 @@ class MovieRepository {
       final response = await client.get(url);
       final movies = List<MovieModel>.of(response.data['results']
           .map<MovieModel>((json) => MovieModel(
-              title: json['title'],
-              urlImage: 'https://image.tmdb.org/t/p/w185${json['poster_path']}')));
+              name: json['title'],
+              url: 'https://image.tmdb.org/t/p/w185${json['poster_path']}')));
 
       return movies;
     } catch (e) {

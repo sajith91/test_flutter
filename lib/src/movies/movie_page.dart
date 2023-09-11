@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_flutter/src/movies/movie_cubit.dart';
+import 'package:test_flutter/src/movies/movie_model.dart';
 import 'package:test_flutter/src/movies/movie_state.dart';
+
+import '../util/database_helper.dart';
+
+List<MovieModel> movie_list = [];
 
 class MoviePage extends StatefulWidget {
   const MoviePage({super.key});
@@ -11,6 +16,21 @@ class MoviePage extends StatefulWidget {
 }
 
 class _MoviePageState extends State<MoviePage> {
+  @override
+  void initState() {
+    super.initState();
+    getMovieFromDB();
+  }
+
+  void getMovieFromDB() async {
+    var dbHelper = MovieDataBaseHelper();
+    List<MovieModel> _movie_list = await dbHelper.getMovies();
+    setState(() {
+      movie_list = _movie_list;
+      print(movie_list.length);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +49,9 @@ class _MoviePageState extends State<MoviePage> {
               itemCount: movies.length,
               itemBuilder: (context, index) => Card(
                 child: ListTile(
-                  title: Text(movies[index].title),
+                  title: Text(movies[index].name ?? ""),
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(movies[index].urlImage),
+                    backgroundImage: NetworkImage(movies[index].url ?? ""),
                   ),
                 ),
               ),
